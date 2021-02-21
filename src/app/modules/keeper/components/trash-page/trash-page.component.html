@@ -1,4 +1,3 @@
-
 <div class="trashPage">
 
   <div class="noNotes" *ngIf="!getTrashNotes().length">
@@ -7,7 +6,7 @@
   </div>
 
   <div class="gridHeader" *ngIf="getTrashNotes().length">
-    <h3 class="gridTitle">Dữ liệu sẽ biến mất trong vòng 7 ngày</h3>
+    <h3 class="gridTitle">Ghi chú trong Thùng rác bị xóa sau 7 ngày</h3>
     <span class="clearRef" (click)="clearConfirmDialogue()">Clear all</span>
   </div>
 

@@ -1,4 +1,3 @@
-
 <app-new-note [defaultAlarm]="getNewNoteDate()"></app-new-note>
 
 <div class="noNotes" *ngIf="!getPastAlerts().length && !getComingAlerts().length">
@@ -6,12 +5,13 @@
   <span class="noNotesText">Нет оповещений</span>
 </div>
 
-<h3 class="gridHeader" *ngIf="getPastAlerts().length">Прошедшие</h3>
+<h3 class="gridHeader" *ngIf="getPastAlerts().length">
+  Quá khứ</h3>
 <div class="noticedGrid" *ngIf="getPastAlerts().length">
   <app-grid-layout [dragEnabled]='true' [notes]='getPastAlerts()'></app-grid-layout>
 </div>
 
-<h3 class="gridHeader" *ngIf="getComingAlerts().length">Предстоящие</h3>
+<h3 class="gridHeader" *ngIf="getComingAlerts().length">Sắp tới deadline rồi đó</h3>
 <div class="unnoticedGrid">
   <app-grid-layout [dragEnabled]='false' [notes]='getComingAlerts()'></app-grid-layout>
 </div>
