@@ -154,7 +154,7 @@ export class NoteMenuComponent implements OnInit {
     } else if (!this.note.trash) {
       const dialogRef = this.dialog.open(DialogueConfirmComponent, {
         width: "250px",
-        data: "Удалить заметку?",
+        data: "Có chắc chắn muốn xóa ?",
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {

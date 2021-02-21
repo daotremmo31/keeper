@@ -1,47 +1,59 @@
-import { Component, OnInit, Inject, ElementRef } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
-import { LabelService } from '../../../shared/services/label.service';
-import { DialogueConfirmComponent } from '../../../shared/components/dialogue-confirm/dialogue-confirm.component';
-import { DialogueAlertComponent } from '../../../shared/components/dialogue-alert/dialogue-alert.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnInit, Inject, ElementRef } from "@angular/core";
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from "@angular/material/dialog";
+import { LabelService } from "../../../shared/services/label.service";
+import { DialogueConfirmComponent } from "../../../shared/components/dialogue-confirm/dialogue-confirm.component";
+import { DialogueAlertComponent } from "../../../shared/components/dialogue-alert/dialogue-alert.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
-  selector: 'app-edit-label-modal',
-  templateUrl: './edit-label-modal.component.html',
-  styleUrls: ['./edit-label-modal.component.css']
+  selector: "app-edit-label-modal",
+  templateUrl: "./edit-label-modal.component.html",
+  styleUrls: ["./edit-label-modal.component.css"],
 })
 export class EditLabelModalComponent implements OnInit {
-  newLabel:string = "";
+  newLabel: string = "";
   constructor(
-          public dialog: MatDialog,
-          public dialogRef: MatDialogRef<EditLabelModalComponent>,
-          @Inject(MAT_DIALOG_DATA) public data: any,  // Mat-Dialogue-Data as LabelList
-          private labelService: LabelService,
-          private snackBar: MatSnackBar) {}
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<EditLabelModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any, // Mat-Dialogue-Data as LabelList
+    private labelService: LabelService,
+    private snackBar: MatSnackBar
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onCloseClick(): void {
     this.dialogRef.close();
   }
 
   customTrackBy(index: number): any {
-      return index;
+    return index;
   }
 
-  focusInput(editBtnBody: HTMLInputElement){
-    editBtnBody.classList.add('editActive');
+  focusInput(editBtnBody: HTMLInputElement) {
+    editBtnBody.classList.add("editActive");
   }
 
-  saveInput(labelInput: HTMLInputElement, index: number, editBtnBody: HTMLInputElement, label:string){
-      //Unique verify
-    if(labelInput.value.toLowerCase() == this.data[index].toLowerCase() || this.labelService.verifyUnique(labelInput.value)){
+  saveInput(
+    labelInput: HTMLInputElement,
+    index: number,
+    editBtnBody: HTMLInputElement,
+    label: string
+  ) {
+    //Unique verify
+    if (
+      labelInput.value.toLowerCase() == this.data[index].toLowerCase() ||
+      this.labelService.verifyUnique(labelInput.value)
+    ) {
       this.data[index] = labelInput.value;
-      editBtnBody.classList.remove('editActive');
+      editBtnBody.classList.remove("editActive");
       this.renameLabel(labelInput.value, label);
-    }
-    else{
+    } else {
       // New label name does not pass unique verify
       labelInput.value = this.data[index];
       labelInput.focus();
@@ -49,9 +61,9 @@ export class EditLabelModalComponent implements OnInit {
     }
   }
 
-  addNewLabel(newLabelIInput: HTMLInputElement, needFocus:boolean){
+  addNewLabel(newLabelIInput: HTMLInputElement, needFocus: boolean) {
     // Unique verify
-    if (this.labelService.verifyUnique(newLabelIInput.value)){
+    if (this.labelService.verifyUnique(newLabelIInput.value)) {
       this.labelService.pushLabel(newLabelIInput.value);
       newLabelIInput.value = "";
       newLabelIInput.blur();
@@ -63,39 +75,36 @@ export class EditLabelModalComponent implements OnInit {
       this.AlertDialogue();
       newLabelIInput.focus();
     }
-
-
   }
 
-  deleteConfirmDialogue(label:string): void {
+  deleteConfirmDialogue(label: string): void {
     const dialogRef = this.dialog.open(DialogueConfirmComponent, {
-      width: '250px',
-      data: 'Удалить ярлык? Он исчезнет со всех заметок, при этом сами заметки сохранятся.'
+      width: "250px",
+      data:
+        "Xóa lối tắt? Nó sẽ biến mất khỏi tất cả các ghi chú, các ghi chú vẫn sẽ được giữ nguyên.",
     });
     //AfterClose handler
-    dialogRef.afterClosed().subscribe(result => {
-      if (result){
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
         this.deleteLabel(label);
-        this.snackBar.open('Ярлык был удален', null, {duration: 2000});
+        this.snackBar.open("Nhãn đã bị xóa", null, { duration: 2000 });
       }
     });
   }
 
   AlertDialogue(): void {
     const dialogRef = this.dialog.open(DialogueAlertComponent, {
-      width: '250px',
-      data: 'Такая заметка уже существует!'
+      width: "250px",
+      data: "Ghi chú như vậy đã tồn tại!",
     });
     //AfterClose handler
-    dialogRef.afterClosed().subscribe(result => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  renameLabel(newLabel:string, oldLabel:string){
+  renameLabel(newLabel: string, oldLabel: string) {
     this.labelService.renameLabel(newLabel, oldLabel);
   }
-  deleteLabel(label:string){
+  deleteLabel(label: string) {
     this.labelService.deleteLabel(label);
   }
-
 }

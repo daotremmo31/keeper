@@ -5,7 +5,7 @@
   <span class="noNotesText">Không có ghi chú</span>
 </div>
 
-<h3 class="gridHeader" *ngIf="getNoticedByLabel().length">Đặt ra</h3>
+<h3 class="gridHeader" *ngIf="getNoticedByLabel().length">Được ghim</h3>
 <div class="noticedGrid" *ngIf="getNoticedByLabel().length">
   <app-grid-layout (gridChanged)="secondGridChanged($event)" [dragEnabled]='dragEnabled' [notes]='getNoticedByLabel()'>
   </app-grid-layout>
